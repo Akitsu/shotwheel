@@ -1,17 +1,12 @@
-function resetWheel() {
-    initDrawingCanvas();
-    initPhysics();
-    requestAnimationFrame(loop);
-}
-
-window.onload = function () {
-    resetWheel();
-
-    statusLabel.innerHTML = 'Give it a good spin!';
-};
-
+var drawingCanvas = document.getElementById("drawing_canvas");
+var statusLabel = document.getElementById('status_label');
 var segmentColors = ["red", "blue", "yellow", "grey", "green", "orange", "brown"];
 var users = ["", "", "", "", "", "", "", ""];
+
+var shotWheel = new ShotWheel(drawingCanvas, statusLabel, segmentColors, users);
+shotWheel.reset();
+
+statusLabel.innerHTML = 'Give it a good spin!';
 
 function addUser() {
     var userField = document.getElementById('adduserfield');
@@ -21,7 +16,7 @@ function addUser() {
     }
     users.push(userValue);
 
-    resetWheel();
+    shotWheel.reset();
     userField.value = "";
     updateLegend();
 }
@@ -56,8 +51,5 @@ function updateLegend() {
 
 function spin() {
     var velo = Math.floor(Math.random() * 20) + 6;
-    console.log(velo);
-    wheel.body.angularVelocity = velo;
-    wheelSpinning = true;
-    wheelStopped = false;
+    shotWheel.spin(velo);
 }
