@@ -3,8 +3,10 @@ var statusLabel = document.getElementById('status_label');
 var segmentColors = ["red", "blue", "yellow", "grey", "green", "orange", "brown"];
 var users = ["", "", "", "", "", "", "", ""];
 
-var shotWheel = new ShotWheel(drawingCanvas, statusLabel, segmentColors, users);
-shotWheel.reset();
+var shotWheel = new ShotWheel(drawingCanvas, statusLabel, segmentColors, users, function (userIndex) {
+    console.log(users[userIndex]);
+});
+shotWheel.init();
 
 statusLabel.innerHTML = 'Give it a good spin!';
 
@@ -23,7 +25,7 @@ function addUser() {
 }
 
 function deleteUser() {
-
+    //TODO
 }
 
 function updateLegend() {

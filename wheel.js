@@ -1,6 +1,6 @@
 (function () {
 
-    this.ShotWheel = function (drawingCanvas, statusLabel, segmentColors, users) {
+    this.ShotWheel = function (drawingCanvas, statusLabel, segmentColors, users, callback) {
         this.users = users;
         
         const TWO_PI = Math.PI * 2;
@@ -90,7 +90,6 @@
                     }
                     else {
                         console.log('sissy');
-                        var currentRotation = wheel.body.angle % TWO_PI;
                         statusLabel.innerHTML = 'Come on, you can spin harder than that.';
                     }
                 }
@@ -170,9 +169,14 @@
                 wheel.body.angularVelocity = 0;
 
                 spawnPartices();
-                statusLabel.innerHTML = 'Woop woop!'
+                statusLabel.innerHTML = 'Woop woop!';
                 var calc = ((wheel.body.angle - Math.PI * 0.5) % TWO_PI) / wheel.deltaPI;
-                console.log("calc = " + calc);
+
+                if (calc < 0) {
+                    calc = calc + this.users.length;
+                }
+
+                callback(Math.floor(calc));
             }
         }
 
@@ -513,10 +517,17 @@
             return p;
         }
 
-        ShotWheel.prototype.reset = function () {
+        ShotWheel.prototype.init = function () {
+
             initDrawingCanvas();
             initPhysics();
             requestAnimationFrame(loop);
+        };
+
+        ShotWheel.prototype.reset = function () {
+
+            initDrawingCanvas();
+            initPhysics();
         };
         
         ShotWheel.prototype.setUsers = function(users) {
