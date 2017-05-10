@@ -16,7 +16,8 @@ function addUser() {
     }
     users.push(userValue);
 
-    shotWheel.reset();
+    shotWheel.setUsers(users);
+
     userField.value = "";
     updateLegend();
 }

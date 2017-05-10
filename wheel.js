@@ -1,6 +1,8 @@
 (function () {
 
     this.ShotWheel = function (drawingCanvas, statusLabel, segmentColors, users) {
+        this.users = users;
+        
         const TWO_PI = Math.PI * 2;
         const HALF_PI = Math.PI * 0.5;
         // canvas settings
@@ -122,7 +124,7 @@
                 arrowX = wheelX,
                 arrowY = wheelY + wheelRadius + 0.625;
 
-            wheel = new Wheel(wheelX, wheelY, wheelRadius, users.length, 0.25, 7.5);
+            wheel = new Wheel(wheelX, wheelY, wheelRadius, this.users.length, 0.25, 7.5);
             wheel.body.angle = Math.PI * 0.5;
             console.log(wheel.body.angle);
             // wheel.body.angularVelocity = 1;
@@ -515,6 +517,11 @@
             initDrawingCanvas();
             initPhysics();
             requestAnimationFrame(loop);
+        };
+        
+        ShotWheel.prototype.setUsers = function(users) {
+            this.users = users;
+            this.reset();
         };
 
         ShotWheel.prototype.spin = function (velocity) {
