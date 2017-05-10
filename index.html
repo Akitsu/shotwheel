@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Wie moet shotten?</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+<div id="container" class="centered">
+    <canvas id="drawing_canvas"></canvas>
+    <div id="status_label">loading...</div>
+
+</div>
+<div id="legend"></div>
+<div class="inputusers">
+    <input id="adduserfield" type="text" name="adduser">
+    <button type="button" class="addUser" onclick="addUser()">Toevoegen</button>
+    <button id="spinWheel" onclick="spin()">Spin me</button>
+</div>
+
+<script src="p2.min.js"></script>
+<script src="wheel.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

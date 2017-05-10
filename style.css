@@ -1,0 +1,54 @@
+body {
+    background-color: #fff;
+    margin: 0;
+}
+
+.centered {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+#container {
+    z-index: -9999;
+    width: 768px;
+    height: 768px;
+}
+
+#status_label {
+    position: absolute;
+    top: 768px;
+    width: 768px;
+    color: black;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.5em;
+    text-align: center;
+    pointer-events: none;
+}
+
+#drawing_canvas {
+    position: absolute;
+}
+
+#legend {
+    width: 200px;
+}
+
+#legend .legendItem {
+    height: 40px;
+}
+
+#legend .lItemColor {
+    display: inline-block;
+    height: 100%;
+    width: 40px;
+}
+
+#legend .lItemName {
+    display: inline-block;
+    vertical-align: top;
+    line-height: 40px;
+}
