@@ -1,6 +1,6 @@
 (function () {
 
-    this.ShotWheel = function (drawingCanvas, statusLabel, segmentColors, users, callback) {
+    this.ShotWheel = function (drawingCanvas, statusLabel, users, callback) {
         this.users = users;
         
         const TWO_PI = Math.PI * 2;
@@ -123,7 +123,7 @@
                 arrowX = wheelX,
                 arrowY = wheelY + wheelRadius + 0.625;
 
-            wheel = new Wheel(wheelX, wheelY, wheelRadius, this.users.length, 0.25, 7.5);
+            wheel = new Wheel(wheelX, wheelY, wheelRadius, this.users.length, 0.25, 7.5, this.users);
             wheel.body.angle = Math.PI * 0.5;
             console.log(wheel.body.angle);
             // wheel.body.angularVelocity = 1;
@@ -202,7 +202,8 @@
 /////////////////////////////
 // wheel of fortune
 /////////////////////////////
-        function Wheel(x, y, radius, segments, pinRadius, pinDistance) {
+        function Wheel(x, y, radius, segments, pinRadius, pinDistance, users) {
+            this.users = users;
             this.x = x;
             this.y = y;
             this.radius = radius;
@@ -293,7 +294,7 @@
                 // ctx.rotate(-this.body.angle * 0.333333333333333333333333333333333333333333333);
                 ctx.rotate(-this.body.angle);
                 for (var i = 0; i < this.segments; i++) {
-                    ctx.fillStyle = segmentColors[i];
+                    ctx.fillStyle = this.users[i].color;
                     var calculation = this.deltaPI * (10 / (this.segments * 10)) + 1;
 
                     ctx.beginPath();
@@ -528,11 +529,14 @@
 
             initDrawingCanvas();
             initPhysics();
+
+            console.log(this.users);
         };
         
         ShotWheel.prototype.setUsers = function(users) {
             this.users = users;
             this.reset();
+            console.log(users);
         };
 
         ShotWheel.prototype.spin = function (velocity) {
