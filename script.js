@@ -1,7 +1,7 @@
 var drawingCanvas = document.getElementById("drawing_canvas");
 var statusLabel = document.getElementById('status_label');
 var segmentColors = ["red", "blue", "yellow", "grey", "green", "orange", "brown", "pink"];
-var users = [{ name: "", color: "red" }, { name: "", color: "blue" }, { name: "", color: "yellow" }, { name: "", color: "grey" }, { name: "", color: "green" }, { name: "", color: "orange" }, { name: "", color: "brown" }, { name: "", color: "pink" }];
+var users = [{ name: "?!?!?!", color: "red" }, { name: "willem", color: "blue" }, { name: "kees", color: "yellow" }, { name: "piet", color: "grey" }, { name: "harry", color: "green" }, { name: "gerard", color: "orange" }, { name: "johan", color: "brown" }, { name: "henk", color: "pink" }];
 var audio = document.getElementById('bier');
 
 var shotWheel = new ShotWheel(drawingCanvas, statusLabel, users, function (userIndex) {
@@ -43,11 +43,12 @@ function addEverybody(el) {
 function addUser() {
     var userField = document.getElementById('adduserfield');
     var userValue = userField.value;
-    if (users[0].name == "") {
-        users = [];
+    if (users.length > 0) {
+        if (users[0].name == "?!?!?!") {
+            users = [];
+        }
     }
     users.push({ name: userValue, color: segmentColors[users.length], userCount: 0 });
-    console.log(users);
 
     shotWheel.setUsers(users);
 
@@ -63,7 +64,9 @@ function deleteUser(index) {
 
 function updateCount(user) {
     var countVariable = document.getElementsByClassName(user.name)[0];
-    countVariable.innerHTML = user.name + user.userCount;
+    if (countVariable) {
+        countVariable.innerHTML = user.userCount;
+    }
 }
 
 function updateLegend() {
@@ -72,39 +75,51 @@ function updateLegend() {
 
     users.forEach(function (user, i) {
         if (user.shotEverybody) {
-            var lItemColor = document.createElement('div');
+            var lItemColor = document.createElement('td');
             lItemColor.className = "lItemColor";
             lItemColor.style.backgroundColor = user.color;
 
-            var lItemName = document.createElement('div');
-            lItemName.className = "lItemName ";
+            var lItemName = document.createElement('td');
             lItemName.id = "shots";
+            lItemName.className = "lItemName";
             lItemName.innerHTML = user.name;
 
-            var newUserRow = document.createElement('div');
+            var newUserRow = document.createElement('tr');
             newUserRow.className = "legendItem";
             newUserRow.appendChild(lItemColor);
             newUserRow.appendChild(lItemName);
 
             legendEl.appendChild(newUserRow);
         } else {
-            var lItemColor = document.createElement('div');
+            var lItemColor = document.createElement('td');
             lItemColor.className = "lItemColor";
             lItemColor.style.backgroundColor = user.color;
 
-            var lItemName = document.createElement('div');
-            lItemName.className = "lItemName " + user.name;
-            lItemName.innerHTML = user.name + user.userCount;
+            var lItemCount = document.createElement('td');
+            lItemCount.innerHTML = user.userCount;
+            lItemCount.className = "userCount " + user.name;
 
-            var lItemDeleteButton = document.createElement('button');
-            lItemDeleteButton.innerHTML = "DELET"
+            var lItemName = document.createElement('td');
+            lItemName.className = "lItemName";
+            lItemName.innerHTML = user.name;
+
+            var lItemDelBtnCell = document.createElement('td');
+            // var lItemDeleteButton = document.createElement('button');
+            // lItemDeleteButton.innerHTML = "DELET"
+            // lItemDeleteButton.onclick = (() => { deleteUser(i) });
+            // lItemDelBtnCell.appendChild(lItemDeleteButton);
+            //<i class="fa fa-times" aria-hidden="true"></i>
+            var lItemDeleteButton = document.createElement('i');
+            lItemDeleteButton.className = "fa fa-times";            
             lItemDeleteButton.onclick = (() => { deleteUser(i) });
+            lItemDelBtnCell.appendChild(lItemDeleteButton);
 
-            var newUserRow = document.createElement('div');
+            var newUserRow = document.createElement('tr');
             newUserRow.className = "legendItem";
             newUserRow.appendChild(lItemColor);
             newUserRow.appendChild(lItemName);
-            newUserRow.appendChild(lItemDeleteButton);
+            newUserRow.appendChild(lItemCount);
+            newUserRow.appendChild(lItemDelBtnCell);
 
             legendEl.appendChild(newUserRow);
         }

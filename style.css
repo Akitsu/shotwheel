@@ -1,6 +1,7 @@
 body {
     background-color: #fff;
-    margin: 0;
+    margin: 0;    
+    font-family: Arial;
 }
 
 .centered {
@@ -35,20 +36,32 @@ body {
 
 #legend {
     width: 200px;
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 #legend .legendItem {
     height: 40px;
+    margin-bottom: 5px;
 }
 
 #legend .lItemColor {
-    display: inline-block;
-    height: 100%;
-    width: 40px;
+    width: 3vw;
+    height: 3vw;
+    border-radius: 90px;
+    opacity: .65;
 }
 
 #legend .lItemName {
     display: inline-block;
     vertical-align: top;
     line-height: 40px;
+    margin-left: 5px;
+}
+
+#legend .fa-times {
+    color: #a30000;
+    font-size: 20px;
+    cursor: pointer;
 }
