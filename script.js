@@ -2,6 +2,7 @@ var drawingCanvas = document.getElementById("drawing_canvas");
 var statusLabel = document.getElementById('status_label');
 var segmentColors = ["red", "blue", "yellow", "grey", "green", "orange", "brown", "pink"];
 var users = [{ name: "", color: "red" }, { name: "", color: "blue" }, { name: "", color: "yellow" }, { name: "", color: "grey" }, { name: "", color: "green" }, { name: "", color: "orange" }, { name: "", color: "brown" }, { name: "", color: "pink" }];
+var audio = document.getElementById('bier');
 
 var shotWheel = new ShotWheel(drawingCanvas, statusLabel, users, function (userIndex) {
     if (users[userIndex].shotEverybody) {
@@ -16,7 +17,7 @@ var shotWheel = new ShotWheel(drawingCanvas, statusLabel, users, function (userI
         users[userIndex].userCount++;
         updateCount(users[userIndex]);
     }
-
+    audio.play();
 });
 shotWheel.init();
 
