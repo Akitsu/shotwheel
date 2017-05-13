@@ -2,7 +2,30 @@ var drawingCanvas = document.getElementById("drawing_canvas");
 var statusLabel = document.getElementById('status_label');
 var segmentColors = ["red", "blue", "yellow", "grey", "green", "orange", "brown", "pink"];
 var users = [{ name: "?!?!?!", color: "red" }, { name: "willem", color: "blue" }, { name: "kees", color: "yellow" }, { name: "piet", color: "grey" }, { name: "harry", color: "green" }, { name: "gerard", color: "orange" }, { name: "johan", color: "brown" }, { name: "henk", color: "pink" }];
-var audio = document.getElementById('bier');
+
+var audioBuffer = null;
+window.AudioContext = window.AudioContext || window.webkitAudioContext;
+var audioContext = new AudioContext();
+var source;
+function play(url) {
+    var request = new XMLHttpRequest();
+    if (source) {
+        try {
+            source.stop();
+        } catch (err) {}
+    }
+    source = audioContext.createBufferSource();
+    source.connect(audioContext.destination);
+    request.open('GET', url, true);
+    request.responseType = 'arraybuffer';
+    request.onload = function() {
+        audioContext.decodeAudioData(request.response, function(buffer) {
+            source.buffer = buffer;
+            source.start(0);
+        });
+    };
+    request.send();
+}
 
 var shotWheel = new ShotWheel(drawingCanvas, statusLabel, users, function (userIndex) {
     if (users[userIndex].shotEverybody) {
@@ -11,13 +34,12 @@ var shotWheel = new ShotWheel(drawingCanvas, statusLabel, users, function (userI
                 user.userCount++;
                 updateCount(user);
             }
-
         });
     } else {
         users[userIndex].userCount++;
         updateCount(users[userIndex]);
     }
-    audio.play();
+    // player.togglePlayback();
 });
 shotWheel.init();
 
@@ -104,14 +126,9 @@ function updateLegend() {
             lItemName.innerHTML = user.name;
 
             var lItemDelBtnCell = document.createElement('td');
-            // var lItemDeleteButton = document.createElement('button');
-            // lItemDeleteButton.innerHTML = "DELET"
-            // lItemDeleteButton.onclick = (() => { deleteUser(i) });
-            // lItemDelBtnCell.appendChild(lItemDeleteButton);
-            //<i class="fa fa-times" aria-hidden="true"></i>
             var lItemDeleteButton = document.createElement('i');
             lItemDeleteButton.className = "fa fa-times";            
-            lItemDeleteButton.onclick = (() => { deleteUser(i) });
+            lItemDeleteButton.onclick = function () {deleteUser(i)};
             lItemDelBtnCell.appendChild(lItemDeleteButton);
 
             var newUserRow = document.createElement('tr');
@@ -125,6 +142,13 @@ function updateLegend() {
         }
 
     });
+}
+
+function addUserOnEnter(e) {
+    if (e.keyCode == 13) {
+        addUser();
+        return false;
+    }
 }
 
 function spin() {

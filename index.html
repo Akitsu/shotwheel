@@ -12,13 +12,11 @@
 </div>
 <table id="legend"></table>
 <div class="inputusers">
-    <input id="adduserfield" type="text" name="adduser">
+    <input id="adduserfield" type="text" name="adduser" onkeypress="addUserOnEnter(event)">
     <button type="button" class="addUser" onclick="addUser()">Toevoegen</button>
     <button id="spinWheel" onclick="spin()">Spin me</button>
     <input type="checkbox" class="shotsEverybody" onChange="addEverybody(this)">
 </div>
-
-<audio id="bier" controls src="bierkoala.mp3" type="audio/mp3"></audio>
 
 <script src="p2.min.js"></script>
 <script src="wheel.js"></script>
