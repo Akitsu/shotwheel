@@ -3,29 +3,38 @@ var statusLabel = document.getElementById('status_label');
 var segmentColors = ["red", "blue", "yellow", "grey", "green", "orange", "brown", "pink"];
 var users = [{ name: "?!?!?!", color: "red" }, { name: "willem", color: "blue" }, { name: "kees", color: "yellow" }, { name: "piet", color: "grey" }, { name: "harry", color: "green" }, { name: "gerard", color: "orange" }, { name: "johan", color: "brown" }, { name: "henk", color: "pink" }];
 
-var audioBuffer = null;
-window.AudioContext = window.AudioContext || window.webkitAudioContext;
-var audioContext = new AudioContext();
-var source;
-function play(url) {
-    var request = new XMLHttpRequest();
-    if (source) {
-        try {
-            source.stop();
-        } catch (err) {}
-    }
-    source = audioContext.createBufferSource();
-    source.connect(audioContext.destination);
-    request.open('GET', url, true);
-    request.responseType = 'arraybuffer';
-    request.onload = function() {
-        audioContext.decodeAudioData(request.response, function(buffer) {
-            source.buffer = buffer;
-            source.start(0);
-        });
-    };
-    request.send();
-}
+// var audioBuffer = null;
+// window.AudioContext = window.AudioContext || window.webkitAudioContext;
+// var audioContext = new AudioContext();
+// var source;
+//
+// function play() {
+//     var request = new XMLHttpRequest();
+//     if (source) {
+//         try {
+//             source.stop();
+//         } catch (err) {}
+//     }
+//     source = audioContext.createBufferSource();
+//     source.connect(audioContext.destination);
+//     request.open('GET', 'bierkoala.mp3', true);
+//     request.responseType = 'arraybuffer';
+//     request.onload = function() {
+//         audioContext.decodeAudioData(request.response, function(buffer) {
+//             source.buffer = buffer;
+//             source.start(0);
+//         });
+//     };
+//     request.send();
+// }
+
+var audio = new Audio('bierkoala.mp3');
+audio.addEventListener("touchend", function () {
+    console.log("dfsd");
+    audio.play();
+}, false);
+
+var touchEndEvent = new Event('touchend');
 
 var shotWheel = new ShotWheel(drawingCanvas, statusLabel, users, function (userIndex) {
     if (users[userIndex].shotEverybody) {
@@ -39,7 +48,7 @@ var shotWheel = new ShotWheel(drawingCanvas, statusLabel, users, function (userI
         users[userIndex].userCount++;
         updateCount(users[userIndex]);
     }
-    // player.togglePlayback();
+    audio.dispatchEvent(touchEndEvent);
 });
 shotWheel.init();
 
